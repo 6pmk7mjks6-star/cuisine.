@@ -282,13 +282,21 @@
                 </button>
             </div>
 
-            <!-- Recherche de Recettes -->
-            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
+            <!-- Recherche et filtres de catégorie de recettes -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-4">
                 <div class="relative">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
                     <input type="text" id="recipe-search" oninput="renderRecipes()" placeholder="Rechercher une recette par nom..." class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none transition-all">
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button id="recipe-filter-All" onclick="filterRecipes('All', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold theme-bg-light theme-text-light transition-all">Toutes</button>
+                    <button id="recipe-filter-Apero" onclick="filterRecipes('Apéro', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🍢 Apéro</button>
+                    <button id="recipe-filter-Entree" onclick="filterRecipes('Entrée', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🥗 Entrée</button>
+                    <button id="recipe-filter-Plat" onclick="filterRecipes('Plat', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🍛 Plat</button>
+                    <button id="recipe-filter-Dessert" onclick="filterRecipes('Dessert', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🍰 Dessert</button>
+                    <button id="recipe-filter-Cocktail" onclick="filterRecipes('Cocktail', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🍹 Cocktail</button>
                 </div>
             </div>
 
@@ -379,7 +387,7 @@
                     <h2 class="text-2xl font-bold text-slate-800">Ma Liste de Courses Prévisionnelle</h2>
                     <p class="text-sm text-slate-500">Calculée d'après vos réserves, avec possibilité d'ajouter d'autres articles du quotidien.</p>
                 </div>
-                <button onclick="resolveAllShortages()" class="text-xs theme-text-light border theme-border-light theme-bg-light hover:opacity-90 px-4 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-1.5 animate-pulse">
+                <button onclick="resolveAllShortages()" class="text-xs theme-text-light border theme-border-light theme-bg-light hover:opacity-90 px-4 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-1.5">
                     <i class="fa-solid fa-check-double"></i> Mettre à flot le stock physique réel
                 </button>
             </div>
@@ -470,7 +478,7 @@
                                 Saisissez le code de synchronisation de votre autre appareil pour récupérer immédiatement son stock et ses menus.
                             </p>
                             <div class="space-y-3">
-                                <input type="text" id="sync-code-input" placeholder="Ex: 5f9b2d8e4..." class="w-full px-4 py-2.5 border border-slate-200 bg-white rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none font-mono">
+                                <input type="text" id="sync-code-input" placeholder="Ex: 5f9b2d8e4..." class="w-full px-4 py-2.5 border border-slate-200 bg-white rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none font-mono font-bold">
                                 <button onclick="connectToExistingSync()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1.5">
                                     <i class="fa-solid fa-plug"></i> Se connecter & Synchroniser
                                 </button>
@@ -510,7 +518,7 @@
                     <div>
                         <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-file-export mr-2 theme-light-text"></i>Sauvegarder mes données</h3>
                         <p class="text-xs text-slate-500 leading-relaxed">
-                            Pour ne jamais perdre votre inventaire, vos recettes personnalisées, vos plannings et votre liste d'achats personnalisée, téléchargez un fichier de sauvegarde. Vous pourrez le réimporter à tout moment sur un autre appareil.
+                            Pour ne jamais perdre votre inventaire, vos recettes, vos plannings et vos listes, exportez un fichier de sauvegarde. Vous pourrez le réimporter à tout moment sur un autre appareil.
                         </p>
                     </div>
                     <div class="space-y-4 pt-2">
@@ -654,6 +662,7 @@
                 <div class="flex items-center gap-2.5">
                     <span class="text-2xl" id="view-recipe-emoji">🍲</span>
                     <h3 id="view-recipe-title" class="text-xl font-bold text-slate-800">Nom de la recette</h3>
+                    <span id="view-recipe-category-badge" class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-bold">Plat</span>
                 </div>
                 <button onclick="closeModal('view-recipe-modal')" class="text-slate-400 hover:text-slate-600">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -770,7 +779,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 mb-1">Seuil de réapprovisionnement (Alerte)</label>
-                    <input type="number" id="add-item-alert" min="0" value="0" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none font-mono">
+                    <input type="number" id="add-item-alert" min="0" value="0" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none font-mono font-bold">
                 </div>
             </div>
             <button onclick="saveNewItem()" class="w-full py-3 theme-btn-primary font-semibold rounded-xl transition-all">Enregistrer l'aliment</button>
@@ -785,9 +794,21 @@
                 <button onclick="closeModal('add-recipe-modal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Nom de la Recette</label>
-                    <input type="text" id="recipe-name-input" placeholder="Ex: Curry de Poulet" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">Nom de la Recette</label>
+                        <input type="text" id="recipe-name-input" placeholder="Ex: Curry de Poulet" class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">Catégorie</label>
+                        <select id="recipe-category-input" class="w-full px-4 py-2 border border-slate-200 bg-white rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none">
+                            <option value="Plat">🍛 Plat</option>
+                            <option value="Apéro">🍢 Apéro</option>
+                            <option value="Entrée">🥗 Entrée</option>
+                            <option value="Dessert">🍰 Dessert</option>
+                            <option value="Cocktail">🍹 Cocktail</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div>
@@ -811,7 +832,7 @@
                     </div>
                 </div>
             </div>
-            <button id="recipe-modal-submit-btn" onclick="saveNewRecipe()" class="w-full py-3 theme-btn-primary font-semibold rounded-xl transition-all font-semibold text-sm">Créer la recette</button>
+            <button id="recipe-modal-submit-btn" onclick="saveNewRecipe()" class="w-full py-3 theme-btn-primary font-semibold rounded-xl transition-all font-bold text-sm">Créer la recette</button>
         </div>
     </div>
 
@@ -868,6 +889,7 @@
             {
                 id: "poulet-tikka",
                 name: "🍗 Poulet Tikka Massala",
+                category: "Plat",
                 instructions: "1. Coupez vos filets de poulet en dés réguliers.\n2. Faites chauffer une poêle avec un filet d'huile, puis faites revenir et dorer le poulet à feu vif pendant 5 minutes.\n3. Versez le bocal de préparation Tikka Massala et ajoutez la crème ou brique de lait de coco pour lier et adoucir le tout.\n4. Laissez mijoter tranquillement à feu moyen/doux pendant 10 à 12 minutes.\n5. En parallèle, faites bouillir de l'eau salée et faites cuire votre portion de riz basmati selon les instructions du paquet.\n6. Dressez le riz bien chaud nappé du curry crémeux par-dessus !",
                 ingredients: [
                     { id: "poulet", amount: 1 },
@@ -879,6 +901,7 @@
             {
                 id: "saumon-cremeux",
                 name: "🐟 Saumon à la Crème & Épinards",
+                category: "Plat",
                 instructions: "1. Saisissez vos pavés de saumon dans une poêle chaude légèrement huilée pendant environ 4 minutes de chaque côté jusqu'à cuisson complète. Réservez-les ensuite hors de la poêle.\n2. Dans la même poêle encore chaude, jetez les épinards frais. Remuez constamment pour les faire s'affaisser ('tomber') pendant 2 à 3 minutes.\n3. Versez la crème liquide de votre brique, ajoutez le jus de citron, salez, poivrez et laissez frémir 1 minute.\n4. Déposez de nouveau vos pavés de saumon cuits au cœur de cette sauce aux épinards pour les réchauffer.\n5. Servez immédiatement accompagné de riz chaud ou de pâtes fraîches.",
                 ingredients: [
                     { id: "saumon", amount: 0.75 },
@@ -891,6 +914,7 @@
             {
                 id: "pitas-grecques",
                 name: "🥙 Pitas Grecques au Thon (Froid)",
+                category: "Plat",
                 instructions: "1. Ouvrez votre sachet de pains pita. Humidifiez-les très légèrement d'un filet d'eau puis passez-les environ 1 minute au grille-pain ou 3 minutes au four chaud pour qu'ils gonflent et deviennent moelleux.\n2. Incisez un bord de chaque pain pita afin de créer une poche interne vide.\n3. Tartinez généreusement l'intérieur de tzatziki à l'aide d'une petite cuillère.\n4. Émiettez votre boîte de thon préalablement égouttée.\n5. Coupez vos tomates cerises en deux, l'avocat en cubes de taille moyenne et la feta en petits dés.\n6. Garnissez activement vos poches de pita avec le thon, l'avocat, les tomates cerises et la feta émiettée. À déguster frais !",
                 ingredients: [
                     { id: "pains-pita", amount: 1.5 },
@@ -904,6 +928,7 @@
             {
                 id: "saucisses-haricots",
                 name: "🌭 Knakis Express & Haricots verts",
+                category: "Plat",
                 instructions: "1. Plongez les saucisses Knaki dans une petite casserole d'eau frémissante pendant 4 à 5 minutes pour les chauffer à cœur.\n2. Égouttez vos boîtes de haricots verts fins.\n3. Faites chauffer une poêle à feu vif avec une noisette de beurre ou d'huile. Faites-y sauter énergiquement les haricots verts.\n4. À mi-parcours, versez un trait de sauce soja salée sur les haricots et laissez-les légèrement griller/caraméliser à la poêle.\n5. Coupez vos Knakis chaudes en rondelles.\n6. Dressez les haricots bien dorés et garnissez-les avec vos morceaux de saucisses.",
                 ingredients: [
                     { id: "knaki", amount: 2.5 },
@@ -921,6 +946,7 @@
         
         let currentWeek = 1;
         let selectedCategory = "All";
+        let selectedRecipeCategory = "All";
         let editingRecipeId = null;
         let currentConfirmCallback = null;
         
@@ -1195,7 +1221,7 @@
         // Structureurs d'état pour export/import/cloud
         function getApplicationStateObject() {
             return {
-                version: "3.6",
+                version: "3.7",
                 timestamp: new Date().toISOString(),
                 currentWeek: currentWeek,
                 appName: currentAppName,
@@ -1349,6 +1375,7 @@
             localStorage.setItem("culinary_pantry_data_v3", JSON.stringify(inventory));
         }
 
+        // Sauvegarder des recettes
         function saveRecipes() {
             localStorage.setItem("culinary_recipes_data_v3", JSON.stringify(recipes));
         }
@@ -1399,7 +1426,6 @@
             document.getElementById(`content-${tabId}`).classList.remove('hidden');
 
             document.querySelectorAll('.tab-btn').forEach(btn => {
-                // On s'assure que tous les onglets ont la classe "relative" pour le badge d'achats indépendant
                 btn.className = "tab-btn py-4 px-3 md:px-5 font-medium text-sm transition-all border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 relative";
                 btn.removeAttribute("data-active");
             });
@@ -1690,6 +1716,23 @@
             renderInventoryTable();
         }
 
+        function filterRecipes(category, event) {
+            selectedRecipeCategory = category;
+            
+            document.querySelectorAll('.recipe-filter-btn').forEach(btn => {
+                btn.className = "recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all";
+                btn.style.backgroundColor = "";
+                btn.style.color = "";
+            });
+
+            const activeBtn = event.currentTarget;
+            activeBtn.className = "recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all";
+            activeBtn.style.backgroundColor = "var(--theme-bg-light)";
+            activeBtn.style.color = "var(--theme-text-light)";
+
+            renderRecipes();
+        }
+
         function quickUpdateQty(itemId, factor) {
             const item = inventory.find(i => i.id === itemId);
             if (item) {
@@ -1712,8 +1755,13 @@
             const searchQuery = document.getElementById("recipe-search").value.toLowerCase().trim();
 
             let filtered = recipes;
+            
+            if (selectedRecipeCategory !== "All") {
+                filtered = filtered.filter(recipe => (recipe.category || "Plat") === selectedRecipeCategory);
+            }
+
             if (searchQuery !== "") {
-                filtered = recipes.filter(recipe => recipe.name.toLowerCase().includes(searchQuery));
+                filtered = filtered.filter(recipe => recipe.name.toLowerCase().includes(searchQuery));
             }
 
             if (filtered.length === 0) {
@@ -1740,6 +1788,14 @@
                     ingredientsHTML += `<li class="text-[10px] italic text-slate-400">+ ${recipe.ingredients.length - 3} autres ingrédients</li>`;
                 }
 
+                // Trouver l'icône de catégorie
+                let catBadge = recipe.category || "Plat";
+                let catIcon = "🍛";
+                if (catBadge === "Apéro") catIcon = "🍢";
+                if (catBadge === "Entrée") catIcon = "🥗";
+                if (catBadge === "Dessert") catIcon = "🍰";
+                if (catBadge === "Cocktail") catIcon = "🍹";
+
                 grid.innerHTML += `
                     <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col justify-between space-y-4">
                         <div>
@@ -1748,6 +1804,9 @@
                                 <button onclick="openViewRecipeModal('${recipe.id}')" class="text-xs theme-text-light hover:text-white theme-bg-light hover:theme-primary-bg w-8 h-8 rounded-xl flex items-center justify-center transition-all shadow-sm" title="Voir la fiche recette">
                                     <i class="fa-solid fa-eye"></i>
                                 </button>
+                            </div>
+                            <div class="mt-2 flex items-center gap-1.5">
+                                <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-bold">${catIcon} ${catBadge}</span>
                             </div>
                             <p class="text-xs text-slate-400 mt-2">Aperçu ingrédients (1 portion) :</p>
                             <ul class="mt-2 space-y-1">
@@ -1785,6 +1844,15 @@
             document.getElementById("view-recipe-emoji").innerText = recipeEmoji;
             document.getElementById("view-recipe-title").innerText = cleanTitle;
             document.getElementById("sheet-portions-count").innerText = activeSheetPortions;
+            
+            let catBadgeStr = recipe.category || "Plat";
+            let catIcon = "🍛";
+            if (catBadgeStr === "Apéro") catIcon = "🍢";
+            if (catBadgeStr === "Entrée") catIcon = "🥗";
+            if (catBadgeStr === "Dessert") catIcon = "🍰";
+            if (catBadgeStr === "Cocktail") catIcon = "🍹";
+            
+            document.getElementById("view-recipe-category-badge").innerText = `${catIcon} ${catBadgeStr}`;
 
             const instructionsContainer = document.getElementById("view-recipe-instructions");
             if (recipe.instructions && recipe.instructions.trim() !== "") {
@@ -1908,7 +1976,7 @@
                         <span>${itemName}</span>
                         <div class="text-right">
                             <span class="block font-bold font-mono">-${formatQty(totalNeeded)} ${itemUnit}</span>
-                            <span class="text-[10px] block ${finalStockClass} font-mono">Projeté futur : ${formatQty(afterPlanProj)} ${itemUnit}</span>
+                            <span class="text-[10px] block ${finalStockClass} font-mono font-bold">Projeté futur : ${formatQty(afterPlanProj)} ${itemUnit}</span>
                         </div>
                     </li>
                 `;
@@ -2097,7 +2165,7 @@
                             </div>
                             <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
                                 <span class="text-xs text-slate-400 mr-2">Acheter :</span>
-                                <input type="number" id="restock-input-${item.id}" value="${defaultRestock}" class="w-16 text-center border border-slate-200 px-1 py-1 rounded-lg text-sm bg-white font-mono">
+                                <input type="number" id="restock-input-${item.id}" value="${defaultRestock}" class="w-16 text-center border border-slate-200 px-1 py-1 rounded-lg text-sm bg-white font-mono font-bold">
                                 <span class="text-xs font-semibold text-slate-500 mr-2">${item.unit}</span>
                                 <button onclick="buyItem('${item.id}')" class="theme-btn-primary font-semibold text-xs px-3 py-2 rounded-xl transition-all">
                                     <i class="fa-solid fa-check"></i> Acheté
@@ -2342,6 +2410,7 @@
             const modalTitle = document.getElementById("recipe-modal-title");
             const submitBtn = document.getElementById("recipe-modal-submit-btn");
             const nameInput = document.getElementById("recipe-name-input");
+            const categoryInput = document.getElementById("recipe-category-input");
             const instructionsInput = document.getElementById("recipe-instructions-input");
             
             document.getElementById("recipe-ingredient-search").value = "";
@@ -2354,11 +2423,13 @@
                 modalTitle.innerText = "Modifier la Recette";
                 submitBtn.innerText = "Enregistrer les modifications";
                 nameInput.value = existingRecipe.name.replace(/^[\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF]\s*/g, '');
+                categoryInput.value = existingRecipe.category || "Plat";
                 instructionsInput.value = existingRecipe.instructions || "";
             } else {
                 modalTitle.innerText = "Créer une Nouvelle Recette";
                 submitBtn.innerText = "Créer la recette";
                 nameInput.value = "";
+                categoryInput.value = "Plat";
                 instructionsInput.value = "";
             }
 
@@ -2381,7 +2452,7 @@
                             <label for="add-recipe-check-${item.id}" class="text-sm font-semibold text-slate-700 cursor-pointer">${item.name}</label>
                         </div>
                         <div class="flex items-center gap-2">
-                            <input type="number" id="add-recipe-qty-${item.id}" step="any" value="${ingredientAmount}" placeholder="Qté" class="w-20 px-2 py-1 border border-slate-200 rounded-lg text-sm text-center focus:ring-1 focus:ring-emerald-500 focus:outline-none font-mono">
+                            <input type="number" id="add-recipe-qty-${item.id}" step="any" value="${ingredientAmount}" placeholder="Qté" class="w-20 px-2 py-1 border border-slate-200 rounded-lg text-sm text-center focus:ring-1 focus:ring-emerald-500 focus:outline-none font-mono font-bold">
                             <span class="text-xs text-slate-400 font-medium w-8">${item.unit}</span>
                         </div>
                     </div>
@@ -2439,6 +2510,7 @@
         // ENREGISTREMENT DE RECETTE
         function saveNewRecipe() {
             const name = document.getElementById("recipe-name-input").value.trim();
+            const category = document.getElementById("recipe-category-input").value;
             const instructions = document.getElementById("recipe-instructions-input").value.trim();
             
             if (!name) {
@@ -2472,10 +2544,23 @@
                 return;
             }
 
+            // Conserver l'émoji s'il existe déjà
+            let finalName = name;
+            if (!name.match(/^([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/)) {
+                // Ajouter un émoji automatique selon la catégorie
+                let autoEmoji = "🍛";
+                if (category === "Apéro") autoEmoji = "🍢";
+                if (category === "Entrée") autoEmoji = "🥗";
+                if (category === "Dessert") autoEmoji = "🍰";
+                if (category === "Cocktail") autoEmoji = "🍹";
+                finalName = `${autoEmoji} ${name}`;
+            }
+
             if (editingRecipeId) {
                 const recipeIndex = recipes.findIndex(r => r.id === editingRecipeId);
                 if (recipeIndex !== -1) {
-                    recipes[recipeIndex].name = `🍲 ${name}`;
+                    recipes[recipeIndex].name = finalName;
+                    recipes[recipeIndex].category = category;
                     recipes[recipeIndex].ingredients = selectedIngredients;
                     recipes[recipeIndex].instructions = instructions;
                 }
@@ -2490,7 +2575,8 @@
 
                 recipes.push({
                     id,
-                    name: `🍲 ${name}`,
+                    name: finalName,
+                    category,
                     ingredients: selectedIngredients,
                     instructions: instructions
                 });
