@@ -1010,6 +1010,8 @@
         let currentAppName = "Mon Chef de Stock";
 
         // ID de synchronisation Cloud
+        // URL de votre Worker Cloudflare personnel (relais sécurisé vers JSONBin, clé jamais exposée)
+        const CLOUD_WORKER_URL = 'https://cuisine-sync.6vts5hhs26.workers.dev';
         let syncCode = null;
         let isSyncing = false;
 
@@ -1141,14 +1143,14 @@
             }
         }
 
-        // Active la synchronisation en créant un nouveau coffre Cloud (npoint bin) via proxy CORS
+        // Active la synchronisation en créant un nouveau coffre Cloud via votre Worker Cloudflare personnel
         function enableCloudSync() {
             setSyncStatus('syncing', 'Création du coffre...');
             
             const payload = getApplicationStateObject();
 
-            // Utilisation de corsproxy.io pour autoriser le navigateur à envoyer la requête de création
-            fetch('https://corsproxy.io/?url=https://api.npoint.io', {
+            // Utilisation du Worker Cloudflare personnel pour créer le coffre cloud
+            fetch(CLOUD_WORKER_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -1170,7 +1172,7 @@
             });
         }
 
-        // Se connecte à un code Cloud existant saisi par l'utilisateur via proxy CORS
+        // Se connecte à un code Cloud existant saisi par l'utilisateur via le Worker Cloudflare
         function connectToExistingSync() {
             const input = document.getElementById("sync-code-input");
             const code = input.value.trim();
@@ -1185,7 +1187,7 @@
                 "En vous connectant, toutes vos recettes et vos stocks actuels sur cet appareil vont être remplacés par les données du Cloud. Confirmer ?",
                 function() {
                     setSyncStatus('syncing', 'Récupération...');
-                    fetch('https://corsproxy.io/?url=https://api.npoint.io/' + code)
+                    fetch(CLOUD_WORKER_URL + '/' + code)
                     .then(res => {
                         if (!res.ok) throw new Error("Code de synchronisation introuvable ou invalide.");
                         return res.json();
@@ -1210,7 +1212,7 @@
             );
         }
 
-        // Télécharge les dernières données cloud via proxy CORS
+        // Télécharge les dernières données cloud via le Worker Cloudflare
         function forceCloudDownload() {
             fetchLatestCloudData(false);
         }
@@ -1219,7 +1221,7 @@
             if (!syncCode) return;
             if (!silent) setSyncStatus('syncing', 'Mise à jour...');
 
-            fetch('https://corsproxy.io/?url=https://api.npoint.io/' + syncCode)
+            fetch(CLOUD_WORKER_URL + '/' + syncCode)
             .then(res => {
                 if (!res.ok) throw new Error();
                 return res.json();
@@ -1239,7 +1241,7 @@
             });
         }
 
-        // Sauvegarde automatique en arrière-plan vers le Cloud via proxy CORS
+        // Sauvegarde automatique en arrière-plan vers le Cloud via le Worker Cloudflare
         function triggerCloudBackup() {
             if (!syncCode || isSyncing) return;
             isSyncing = true;
@@ -1247,7 +1249,7 @@
 
             const payload = getApplicationStateObject();
 
-            fetch('https://corsproxy.io/?url=https://api.npoint.io/' + syncCode, {
+            fetch(CLOUD_WORKER_URL + '/' + syncCode, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
