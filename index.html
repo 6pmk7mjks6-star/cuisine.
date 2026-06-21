@@ -239,12 +239,9 @@
                     </span>
                     <input type="text" id="inventory-search" oninput="renderInventoryTable()" placeholder="Rechercher un aliment (ex: Poulet, pâtes, feta...)" class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none transition-all">
                 </div>
+                <!-- Filtres Générés Dynamiquement -->
                 <div class="flex flex-wrap gap-2">
-                    <button id="filter-btn-All" onclick="filterInventory('All', event)" class="inv-filter-btn px-4 py-2 rounded-xl text-sm font-semibold theme-bg-light theme-text-light transition-all">Tous</button>
-                    <button id="filter-btn-Placard" onclick="filterInventory('Placard', event)" class="inv-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">📦 Placard</button>
-                    <button id="filter-btn-Frigo" onclick="filterInventory('Frigo', event)" class="inv-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🥦 Frigo</button>
-                    <button id="filter-btn-Congel" onclick="filterInventory('Congel', event)" class="inv-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">❄️ Congélateur</button>
-                    <button id="filter-btn-Epices" onclick="filterInventory('Épices / Assaisonnements', event)" class="inv-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🌿 Épices / condiments</button>
+                    <!-- Rempli en JS -->
                 </div>
             </div>
 
@@ -290,13 +287,9 @@
                     </span>
                     <input type="text" id="recipe-search" oninput="renderRecipes()" placeholder="Rechercher une recette par nom..." class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none transition-all">
                 </div>
+                <!-- Filtres Générés Dynamiquement -->
                 <div class="flex flex-wrap gap-2">
-                    <button id="recipe-filter-All" onclick="filterRecipes('All', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold theme-bg-light theme-text-light transition-all">Toutes</button>
-                    <button id="recipe-filter-Apero" onclick="filterRecipes('Apéro', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🍢 Apéro</button>
-                    <button id="recipe-filter-Entree" onclick="filterRecipes('Entrée', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🥗 Entrée</button>
-                    <button id="recipe-filter-Plat" onclick="filterRecipes('Plat', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🍛 Plat</button>
-                    <button id="recipe-filter-Dessert" onclick="filterRecipes('Dessert', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🍰 Dessert</button>
-                    <button id="recipe-filter-Cocktail" onclick="filterRecipes('Cocktail', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">🍹 Cocktail</button>
+                    <!-- Rempli en JS -->
                 </div>
             </div>
 
@@ -487,6 +480,55 @@
                     </div>
                 </div>
 
+                <!-- SECTION: GESTION DES CATEGORIES DYNAMIQUES -->
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-5 lg:col-span-2">
+                    <div class="flex items-center gap-2.5">
+                        <div class="p-2 bg-emerald-50 text-emerald-600 rounded-xl text-xl">
+                            <i class="fa-solid fa-tags"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-slate-800">Personnaliser mes catégories (Stock & Recettes)</h3>
+                            <p class="text-xs text-slate-500">Ajoutez, supprimez ou personnalisez vos catégories d'aliments et de recettes avec vos propres émojis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                        <!-- Catégories Aliments -->
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-4">
+                            <h4 class="text-sm font-bold text-slate-700 flex items-center gap-1.5 border-b border-slate-200/60 pb-2">
+                                <i class="fa-solid fa-boxes-stacked theme-light-text"></i> Catégories du Stock
+                            </h4>
+                            <div id="settings-stock-cats-list" class="space-y-2 max-h-[200px] overflow-y-auto pr-1">
+                                <!-- Rempli dynamiquement -->
+                            </div>
+                            <div class="flex gap-2 pt-2 border-t border-slate-200/60">
+                                <input type="text" id="new-stock-cat-emoji" placeholder="🍷" maxlength="2" class="w-12 text-center px-2 py-2 border border-slate-200 bg-white rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none">
+                                <input type="text" id="new-stock-cat-name" placeholder="Nouvelle catégorie (ex: Boissons)" class="flex-grow px-3 py-2 border border-slate-200 bg-white rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none">
+                                <button onclick="addStockCategory()" class="theme-btn-primary px-4 py-2 font-semibold text-sm rounded-xl">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Catégories Recettes -->
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-4">
+                            <h4 class="text-sm font-bold text-slate-700 flex items-center gap-1.5 border-b border-slate-200/60 pb-2">
+                                <i class="fa-solid fa-book-open theme-light-text"></i> Catégories de Recettes
+                            </h4>
+                            <div id="settings-recipe-cats-list" class="space-y-2 max-h-[200px] overflow-y-auto pr-1">
+                                <!-- Rempli dynamiquement -->
+                            </div>
+                            <div class="flex gap-2 pt-2 border-t border-slate-200/60">
+                                <input type="text" id="new-recipe-cat-emoji" placeholder="🥐" maxlength="2" class="w-12 text-center px-2 py-2 border border-slate-200 bg-white rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none">
+                                <input type="text" id="new-recipe-cat-name" placeholder="Nouvelle catégorie (ex: Brunch)" class="flex-grow px-3 py-2 border border-slate-200 bg-white rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none">
+                                <button onclick="addRecipeCategory()" class="theme-btn-primary px-4 py-2 font-semibold text-sm rounded-xl">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Personnalisation de l'App et Thème -->
                 <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm space-y-5">
                     <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-palette mr-2 theme-light-text"></i>Apparence & Identité</h3>
@@ -535,7 +577,7 @@
                 </div>
 
                 <!-- Maintenance & RAZ -->
-                <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col justify-between space-y-4">
+                <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col justify-between space-y-4 col-span-1 lg:col-span-2">
                     <div>
                         <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-triangle-exclamation mr-2 text-rose-500"></i>Maintenance & Réinitialisation</h3>
                         <p class="text-xs text-slate-500 leading-relaxed">
@@ -627,8 +669,7 @@
                     <!-- GUIDE POUR REVENIR VERS L'IA -->
                     <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-3 flex flex-col justify-between">
                         <div>
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5 mb-2">
-                                <i class="fa-solid fa-code-branch text-slate-400"></i> Évolutions futures avec une IA
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">📊 Évolutions futures avec une IA
                             </h4>
                             <div class="text-xs text-slate-600 space-y-3 leading-relaxed">
                                 <p>Pour faire évoluer votre application sans jamais perdre vos recettes ni votre stock au fil des mois :</p>
@@ -771,10 +812,7 @@
                 <div>
                     <label class="block text-xs font-semibold text-slate-500 mb-1">Emplacement / Catégorie</label>
                     <select id="add-item-category" class="w-full px-4 py-2 border border-slate-200 bg-white rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none">
-                        <option value="Placard">📦 Placard</option>
-                        <option value="Frigo">🥦 Frigo</option>
-                        <option value="Congel">❄️ Congélateur</option>
-                        <option value="Épices / Assaisonnements">🌿 Épices / condiments</option>
+                        <!-- Rempli dynamiquement -->
                     </select>
                 </div>
                 <div>
@@ -802,11 +840,7 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-500 mb-1">Catégorie</label>
                         <select id="recipe-category-input" class="w-full px-4 py-2 border border-slate-200 bg-white rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none">
-                            <option value="Plat">🍛 Plat</option>
-                            <option value="Apéro">🍢 Apéro</option>
-                            <option value="Entrée">🥗 Entrée</option>
-                            <option value="Dessert">🍰 Dessert</option>
-                            <option value="Cocktail">🍹 Cocktail</option>
+                            <!-- Rempli dynamiquement -->
                         </select>
                     </div>
                 </div>
@@ -842,9 +876,25 @@
         const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
         const SLOTS = ["Midi", "Soir"];
 
+        // CATEGORIES PAR DÉFAUT (STOCK & RECETTES)
+        const defaultStockCategories = [
+            { id: "Placard", name: "Placard", emoji: "📦" },
+            { id: "Frigo", name: "Frigo", emoji: "🥦" },
+            { id: "Congel", name: "Congélateur", emoji: "❄️" },
+            { id: "Épices / Assaisonnements", name: "Épices & Condiments", emoji: "🌿" },
+            { id: "Bar", name: "Bar", emoji: "🍷" }
+        ];
+
+        const defaultRecipeCategories = [
+            { id: "Plat", name: "Plat", emoji: "🍛" },
+            { id: "Apéro", name: "Apéro", emoji: "🍢" },
+            { id: "Entrée", name: "Entrée", emoji: "🥗" },
+            { id: "Dessert", name: "Dessert", emoji: "🍰" },
+            { id: "Cocktail", name: "Cocktail", emoji: "🍹" }
+        ];
+
         // DATA INITIALES DES ALIMENTS DE L'UTILISATEUR
         const defaultPantry = [
-            // PLACARD
             { id: "saucisses-lentilles", name: "Petite boîte de saucisses lentilles", qty: 1, unit: "boîtes", category: "Placard", alert: 0 },
             { id: "thon", name: "Boîte de thon 120g", qty: 3, unit: "boîtes", category: "Placard", alert: 1 },
             { id: "pulpe-tomate", name: "Boîte de pulpe de tomate 400g", qty: 2, unit: "boîtes", category: "Placard", alert: 0 },
@@ -859,14 +909,12 @@
             { id: "tikka-massala", name: "Bocal préparation tikka massala 420g", qty: 1, unit: "bocaux", category: "Placard", alert: 0 },
             { id: "butter-chicken", name: "Bocal préparation butter chicken 420g", qty: 1, unit: "bocaux", category: "Placard", alert: 0 },
             
-            // ÉPICES ET CONDIMENTS
             { id: "herbes-provence", name: "Herbes de Provence", qty: 100, unit: "g", category: "Épices / Assaisonnements", alert: 10 },
             { id: "citron", name: "Jus de citron en bouteille 200ml", qty: 200, unit: "ml", category: "Épices / Assaisonnements", alert: 20 },
             { id: "sauce-soja", name: "Sauce soja salée", qty: 1, unit: "bouteilles", category: "Épices / Assaisonnements", alert: 0 },
             { id: "vinaigre-balsamique", name: "Vinaigre balsamique", qty: 1, unit: "bouteilles", category: "Épices / Assaisonnements", alert: 0 },
             { id: "curry", name: "Curry", qty: 1, unit: "pièces", category: "Épices / Assaisonnements", alert: 0 },
 
-            // FRIGO
             { id: "tzatziki", name: "Tzatziki 150g", qty: 150, unit: "g", category: "Frigo", alert: 0 },
             { id: "sauce-tomates-basilic", name: "Sauce tomates basilic (entamée)", qty: 210, unit: "g", category: "Frigo", alert: 0 },
             { id: "tomates-cerise", name: "Tomates cerises", qty: 500, unit: "g", category: "Frigo", alert: 100 },
@@ -878,7 +926,6 @@
             { id: "emmental", name: "Emmental râpé 150g", qty: 150, unit: "g", category: "Frigo", alert: 50 },
             { id: "epinards-frais", name: "Épinards frais", qty: 400, unit: "g", category: "Frigo", alert: 0 },
 
-            // CONGÉLATEUR
             { id: "poulet", name: "Filets de poulet", qty: 3, unit: "pièces", category: "Congel", alert: 1 },
             { id: "saumon", name: "Pavé de saumon", qty: 1.5, unit: "pièces", category: "Congel", alert: 0 },
             { id: "gyozas", name: "Gyozas", qty: 5, unit: "pièces", category: "Congel", alert: 0 },
@@ -941,6 +988,8 @@
         // VARIABLES D'ÉTAT PRINCIPALES
         let inventory = [];
         let recipes = [];
+        let stockCategories = [];
+        let recipeCategories = [];
         let plannedMeals = []; // { id: "uuid", week: 1, day: "Lundi", slot: "Midi", recipeId: "poulet-tikka", portions: 2, realized: false }
         let customShoppingItems = []; // { id: "uuid", name: "éponge", qty: "3" }
         
@@ -969,6 +1018,24 @@
             // Chargement du thème de couleur
             const savedTheme = localStorage.getItem("culinary_theme") || "emerald";
             applyTheme(savedTheme);
+
+            // Chargement des catégories d'aliments
+            const savedStockCats = localStorage.getItem("culinary_stock_categories_v3");
+            if (savedStockCats) {
+                stockCategories = JSON.parse(savedStockCats);
+            } else {
+                stockCategories = defaultStockCategories;
+                saveStockCategories();
+            }
+
+            // Chargement des catégories de recettes
+            const savedRecipeCats = localStorage.getItem("culinary_recipe_categories_v3");
+            if (savedRecipeCats) {
+                recipeCategories = JSON.parse(savedRecipeCats);
+            } else {
+                recipeCategories = defaultRecipeCategories;
+                saveRecipeCategories();
+            }
 
             // Chargement de l'inventaire
             const savedInventory = localStorage.getItem("culinary_pantry_data_v3");
@@ -1221,11 +1288,13 @@
         // Structureurs d'état pour export/import/cloud
         function getApplicationStateObject() {
             return {
-                version: "3.7",
+                version: "3.8",
                 timestamp: new Date().toISOString(),
                 currentWeek: currentWeek,
                 appName: currentAppName,
                 theme: localStorage.getItem("culinary_theme") || "emerald",
+                stockCategories: stockCategories,
+                recipeCategories: recipeCategories,
                 inventory: inventory,
                 recipes: recipes,
                 plannedMeals: plannedMeals,
@@ -1234,6 +1303,14 @@
         }
 
         function applyApplicationStateObject(obj) {
+            if (obj.stockCategories) {
+                stockCategories = obj.stockCategories;
+                saveStockCategories();
+            }
+            if (obj.recipeCategories) {
+                recipeCategories = obj.recipeCategories;
+                saveRecipeCategories();
+            }
             if (obj.inventory) inventory = obj.inventory;
             if (obj.recipes) recipes = obj.recipes;
             if (obj.plannedMeals) plannedMeals = obj.plannedMeals;
@@ -1375,7 +1452,6 @@
             localStorage.setItem("culinary_pantry_data_v3", JSON.stringify(inventory));
         }
 
-        // Sauvegarder des recettes
         function saveRecipes() {
             localStorage.setItem("culinary_recipes_data_v3", JSON.stringify(recipes));
         }
@@ -1386,6 +1462,14 @@
 
         function saveCustomShopping() {
             localStorage.setItem("culinary_custom_shopping_v3", JSON.stringify(customShoppingItems));
+        }
+
+        function saveStockCategories() {
+            localStorage.setItem("culinary_stock_categories_v3", JSON.stringify(stockCategories));
+        }
+
+        function saveRecipeCategories() {
+            localStorage.setItem("culinary_recipe_categories_v3", JSON.stringify(recipeCategories));
         }
 
         // ENGIN DE NAVIGATION SEMAINE
@@ -1475,11 +1559,86 @@
 
         // RE-RENDERING GLOBAL DE L'UI
         function refreshUI() {
+            renderStockCategoryFilters();
+            renderRecipeCategoryFilters();
             renderDashboard();
             renderInventoryTable();
             renderRecipes();
             populatePlanSelectors();
             renderShoppingList();
+            populateModalDropdowns();
+            renderCategoryManager();
+        }
+
+        // CATEGORIES : RENDU DES FILTRES INVENTAIRE (DYNAMIQUE)
+        function renderStockCategoryFilters() {
+            const container = document.querySelector("#content-inventory .flex.flex-wrap.gap-2");
+            if (!container) return;
+
+            let html = `
+                <button id="filter-btn-All" onclick="filterInventory('All', event)" class="inv-filter-btn px-4 py-2 rounded-xl text-sm font-semibold ${selectedCategory === 'All' ? 'theme-bg-light theme-text-light' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'} transition-all">Tous</button>
+            `;
+
+            stockCategories.forEach(cat => {
+                const isActive = selectedCategory === cat.id;
+                html += `
+                    <button id="filter-btn-${cat.id}" onclick="filterInventory('${cat.id}', event)" class="inv-filter-btn px-4 py-2 rounded-xl text-sm font-semibold ${isActive ? 'theme-bg-light theme-text-light' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'} transition-all">
+                        ${cat.emoji} ${cat.name}
+                    </button>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // CATEGORIES : RENDU DES FILTRES RECETTES (DYNAMIQUE)
+        function renderRecipeCategoryFilters() {
+            const container = document.querySelector("#content-recipes .flex.flex-wrap.gap-2");
+            if (!container) return;
+
+            let html = `
+                <button id="recipe-filter-All" onclick="filterRecipes('All', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold ${selectedRecipeCategory === 'All' ? 'theme-bg-light theme-text-light' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'} transition-all">Toutes</button>
+            `;
+
+            recipeCategories.forEach(cat => {
+                const isActive = selectedRecipeCategory === cat.id;
+                html += `
+                    <button id="recipe-filter-${cat.id}" onclick="filterRecipes('${cat.id}', event)" class="recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold ${isActive ? 'theme-bg-light theme-text-light' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'} transition-all">
+                        ${cat.emoji} ${cat.name}
+                    </button>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // POPULATE DROPDOWNS DANS LES MODALS (DYNAMIQUE)
+        function populateModalDropdowns() {
+            // Modal Ingrédient
+            const itemCatSelect = document.getElementById("add-item-category");
+            if (itemCatSelect) {
+                const prevVal = itemCatSelect.value;
+                itemCatSelect.innerHTML = "";
+                stockCategories.forEach(cat => {
+                    itemCatSelect.innerHTML += `<option value="${cat.id}">${cat.emoji} ${cat.name}</option>`;
+                });
+                if (prevVal && stockCategories.find(c => c.id === prevVal)) {
+                    itemCatSelect.value = prevVal;
+                }
+            }
+
+            // Modal Recette
+            const recipeCatSelect = document.getElementById("recipe-category-input");
+            if (recipeCatSelect) {
+                const prevVal = recipeCatSelect.value;
+                recipeCatSelect.innerHTML = "";
+                recipeCategories.forEach(cat => {
+                    recipeCatSelect.innerHTML += `<option value="${cat.id}">${cat.emoji} ${cat.name}</option>`;
+                });
+                if (prevVal && recipeCategories.find(c => c.id === prevVal)) {
+                    recipeCatSelect.value = prevVal;
+                }
+            }
         }
 
         // TABLEAU DE BORD : PLANNING ET RÉCAPITULATIFS
@@ -1669,10 +1828,14 @@
                             ? "bg-amber-100 text-amber-800 border-amber-200" 
                             : "theme-bg-light theme-text-light border-emerald-100";
 
+                // Trouver l'émoji/nom de la catégorie d'aliment
+                const catObj = stockCategories.find(c => c.id === item.category);
+                const catDisplay = catObj ? `${catObj.emoji} ${catObj.name}` : item.category;
+
                 body.innerHTML += `
                     <tr class="hover:bg-slate-50/50 transition-colors">
                         <td class="p-4 pl-6 font-semibold text-slate-800">${item.name}</td>
-                        <td class="p-4"><span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-medium">${item.category}</span></td>
+                        <td class="p-4"><span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded-md font-medium">${catDisplay}</span></td>
                         
                         <td class="p-4 text-center">
                             <div class="flex items-center justify-center gap-2">
@@ -1699,8 +1862,8 @@
             });
         }
 
-        function filterInventory(category, event) {
-            selectedCategory = category;
+        function filterInventory(categoryId, event) {
+            selectedCategory = categoryId;
             
             document.querySelectorAll('.inv-filter-btn').forEach(btn => {
                 btn.className = "inv-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all";
@@ -1708,7 +1871,7 @@
                 btn.style.color = "";
             });
 
-            const activeBtn = event.target;
+            const activeBtn = event.currentTarget;
             activeBtn.className = "inv-filter-btn px-4 py-2 rounded-xl text-sm font-semibold transition-all";
             activeBtn.style.backgroundColor = "var(--theme-bg-light)";
             activeBtn.style.color = "var(--theme-text-light)";
@@ -1716,8 +1879,8 @@
             renderInventoryTable();
         }
 
-        function filterRecipes(category, event) {
-            selectedRecipeCategory = category;
+        function filterRecipes(categoryId, event) {
+            selectedRecipeCategory = categoryId;
             
             document.querySelectorAll('.recipe-filter-btn').forEach(btn => {
                 btn.className = "recipe-filter-btn px-4 py-2 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all";
@@ -1761,7 +1924,18 @@
             }
 
             if (searchQuery !== "") {
-                filtered = filtered.filter(recipe => recipe.name.toLowerCase().includes(searchQuery));
+                filtered = filtered.filter(recipe => {
+                    // 1. Recherche dans le nom de la recette
+                    const nameMatches = recipe.name.toLowerCase().includes(searchQuery);
+                    
+                    // 2. Recherche dans le nom de chacun de ses ingrédients requis
+                    const ingredientMatches = recipe.ingredients.some(ri => {
+                        const item = inventory.find(i => i.id === ri.id);
+                        return item && item.name.toLowerCase().includes(searchQuery);
+                    });
+                    
+                    return nameMatches || ingredientMatches;
+                });
             }
 
             if (filtered.length === 0) {
@@ -1788,13 +1962,10 @@
                     ingredientsHTML += `<li class="text-[10px] italic text-slate-400">+ ${recipe.ingredients.length - 3} autres ingrédients</li>`;
                 }
 
-                // Trouver l'icône de catégorie
-                let catBadge = recipe.category || "Plat";
-                let catIcon = "🍛";
-                if (catBadge === "Apéro") catIcon = "🍢";
-                if (catBadge === "Entrée") catIcon = "🥗";
-                if (catBadge === "Dessert") catIcon = "🍰";
-                if (catBadge === "Cocktail") catIcon = "🍹";
+                // Trouver l'icône / nom de la catégorie de recette
+                const catBadge = recipe.category || "Plat";
+                const catObj = recipeCategories.find(c => c.id === catBadge);
+                const catDisplay = catObj ? `${catObj.emoji} ${catObj.name}` : catBadge;
 
                 grid.innerHTML += `
                     <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex flex-col justify-between space-y-4">
@@ -1806,7 +1977,7 @@
                                 </button>
                             </div>
                             <div class="mt-2 flex items-center gap-1.5">
-                                <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-bold">${catIcon} ${catBadge}</span>
+                                <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-bold">${catDisplay}</span>
                             </div>
                             <p class="text-xs text-slate-400 mt-2">Aperçu ingrédients (1 portion) :</p>
                             <ul class="mt-2 space-y-1">
@@ -1846,13 +2017,10 @@
             document.getElementById("sheet-portions-count").innerText = activeSheetPortions;
             
             let catBadgeStr = recipe.category || "Plat";
-            let catIcon = "🍛";
-            if (catBadgeStr === "Apéro") catIcon = "🍢";
-            if (catBadgeStr === "Entrée") catIcon = "🥗";
-            if (catBadgeStr === "Dessert") catIcon = "🍰";
-            if (catBadgeStr === "Cocktail") catIcon = "🍹";
+            const catObj = recipeCategories.find(c => c.id === catBadgeStr);
+            const catDisplay = catObj ? `${catObj.emoji} ${catObj.name}` : catBadgeStr;
             
-            document.getElementById("view-recipe-category-badge").innerText = `${catIcon} ${catBadgeStr}`;
+            document.getElementById("view-recipe-category-badge").innerText = catDisplay;
 
             const instructionsContainer = document.getElementById("view-recipe-instructions");
             if (recipe.instructions && recipe.instructions.trim() !== "") {
@@ -2280,6 +2448,121 @@
             );
         }
 
+        // PARAMETRES : GESTION DES CATEGORIES PERSONNALISÉES
+        function renderCategoryManager() {
+            const stockList = document.getElementById("settings-stock-cats-list");
+            const recipeList = document.getElementById("settings-recipe-cats-list");
+            if (!stockList || !recipeList) return;
+
+            // Catégories du stock
+            stockList.innerHTML = "";
+            stockCategories.forEach(cat => {
+                stockList.innerHTML += `
+                    <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-slate-150 text-sm">
+                        <span class="font-semibold text-slate-700">${cat.emoji} ${cat.name}</span>
+                        <button onclick="deleteStockCategory('${cat.id}')" class="text-rose-500 hover:text-white hover:bg-rose-500 w-7 h-7 rounded-lg border border-rose-100 hover:border-rose-500 flex items-center justify-center transition-all" title="Supprimer la catégorie">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+                `;
+            });
+
+            // Catégories des recettes
+            recipeList.innerHTML = "";
+            recipeCategories.forEach(cat => {
+                recipeList.innerHTML += `
+                    <div class="flex justify-between items-center bg-white p-2.5 rounded-xl border border-slate-150 text-sm">
+                        <span class="font-semibold text-slate-700">${cat.emoji} ${cat.name}</span>
+                        <button onclick="deleteRecipeCategory('${cat.id}')" class="text-rose-500 hover:text-white hover:bg-rose-500 w-7 h-7 rounded-lg border border-rose-100 hover:border-rose-500 flex items-center justify-center transition-all" title="Supprimer la catégorie">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+                `;
+            });
+        }
+
+        function addStockCategory() {
+            const emojiInput = document.getElementById("new-stock-cat-emoji");
+            const nameInput = document.getElementById("new-stock-cat-name");
+            const emoji = emojiInput.value.trim() || "📦";
+            const name = nameInput.value.trim();
+
+            if (!name) {
+                showToast("Veuillez donner un nom à la catégorie d'aliment.", "error");
+                return;
+            }
+
+            const id = name.toLowerCase().replace(/[^a-z0-9]/g, "-");
+            if (stockCategories.find(c => c.id === id)) {
+                showToast("Une catégorie avec ce nom existe déjà.", "warning");
+                return;
+            }
+
+            stockCategories.push({ id, name, emoji });
+            saveStockCategories();
+            emojiInput.value = "";
+            nameInput.value = "";
+            refreshUI();
+            showToast(`Catégorie d'aliments "${name}" ajoutée !`);
+            triggerCloudBackup();
+        }
+
+        function deleteStockCategory(catId) {
+            // Sécurité : vérifier si un aliment utilise actuellement cette catégorie
+            const isUsed = inventory.some(item => item.category === catId);
+            if (isUsed) {
+                showToast("Impossible de supprimer : cette catégorie est actuellement configurée sur des aliments de votre stock !", "error");
+                return;
+            }
+
+            stockCategories = stockCategories.filter(c => c.id !== catId);
+            saveStockCategories();
+            refreshUI();
+            showToast("Catégorie d'aliments supprimée.");
+            triggerCloudBackup();
+        }
+
+        function addRecipeCategory() {
+            const emojiInput = document.getElementById("new-recipe-cat-emoji");
+            const nameInput = document.getElementById("new-recipe-cat-name");
+            const emoji = emojiInput.value.trim() || "🍛";
+            const name = nameInput.value.trim();
+
+            if (!name) {
+                showToast("Veuillez donner un nom à la catégorie de recette.", "error");
+                return;
+            }
+
+            const id = name.toLowerCase().replace(/[^a-z0-9]/g, "-");
+            if (recipeCategories.find(c => c.id === id)) {
+                showToast("Une catégorie de recette de ce nom existe déjà.", "warning");
+                return;
+            }
+
+            recipeCategories.push({ id, name, emoji });
+            saveRecipeCategories();
+            emojiInput.value = "";
+            nameInput.value = "";
+            refreshUI();
+            showToast(`Catégorie de recette "${name}" ajoutée !`);
+            triggerCloudBackup();
+        }
+
+        function deleteRecipeCategory(catId) {
+            // Sécurité : vérifier si une recette utilise actuellement cette catégorie
+            const isUsed = recipes.some(r => r.category === catId);
+            if (isUsed) {
+                showToast("Impossible de supprimer : cette catégorie est configurée sur des fiches recettes actives !", "error");
+                return;
+            }
+
+            recipeCategories = recipeCategories.filter(c => c.id !== catId);
+            saveRecipeCategories();
+            refreshUI();
+            showToast("Catégorie de recettes supprimée.");
+            triggerCloudBackup();
+        }
+
         function exportData() {
             const backupData = getApplicationStateObject();
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backupData, null, 2));
@@ -2342,8 +2625,10 @@
         function resetToInitialState() {
             askConfirmation(
                 "Réinitialiser l'application ?",
-                "Voulez-vous restaurer l'inventaire et les recettes d'origine ? Toutes vos données personnalisées seront écrasées.",
+                "Voulez-vous restaurer l'inventaire, les catégories et les recettes d'origine ? Toutes vos données personnalisées seront écrasées.",
                 function() {
+                    stockCategories = JSON.parse(JSON.stringify(defaultStockCategories));
+                    recipeCategories = JSON.parse(JSON.stringify(defaultRecipeCategories));
                     inventory = JSON.parse(JSON.stringify(defaultPantry));
                     recipes = JSON.parse(JSON.stringify(defaultRecipes));
                     plannedMeals = [
@@ -2359,6 +2644,8 @@
                     updateAppNameDisplay(currentAppName);
                     document.getElementById("current-week-display").innerText = currentWeek;
                     document.getElementById("calendar-week-display").innerText = currentWeek;
+                    saveStockCategories();
+                    saveRecipeCategories();
                     saveInventory();
                     saveRecipes();
                     savePlannedMeals();
@@ -2374,16 +2661,20 @@
         function wipeAllData() {
             askConfirmation(
                 "⚠️ Tout supprimer définitivement ?",
-                "Voulez-vous vider l'intégralité du stock et de vos recettes ? Vous repartirez d'une feuille vierge.",
+                "Voulez-vous vider l'intégralité du stock, vos catégories et de vos recettes ? Vous repartirez d'une feuille vierge.",
                 function() {
                     inventory = [];
                     recipes = [];
                     plannedMeals = [];
                     customShoppingItems = [];
+                    stockCategories = [];
+                    recipeCategories = [];
                     currentWeek = 1;
                     localStorage.setItem("culinary_current_week_v3", currentWeek);
                     document.getElementById("current-week-display").innerText = currentWeek;
                     document.getElementById("calendar-week-display").innerText = currentWeek;
+                    saveStockCategories();
+                    saveRecipeCategories();
                     saveInventory();
                     saveRecipes();
                     savePlannedMeals();
@@ -2429,7 +2720,7 @@
                 modalTitle.innerText = "Créer une Nouvelle Recette";
                 submitBtn.innerText = "Créer la recette";
                 nameInput.value = "";
-                categoryInput.value = "Plat";
+                categoryInput.value = recipeCategories[0]?.id || "Plat";
                 instructionsInput.value = "";
             }
 
@@ -2544,15 +2835,12 @@
                 return;
             }
 
-            // Conserver l'émoji s'il existe déjà
+            // Conserver l'émoji de la recette s'il existe déjà
             let finalName = name;
             if (!name.match(/^([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/)) {
-                // Ajouter un émoji automatique selon la catégorie
-                let autoEmoji = "🍛";
-                if (category === "Apéro") autoEmoji = "🍢";
-                if (category === "Entrée") autoEmoji = "🥗";
-                if (category === "Dessert") autoEmoji = "🍰";
-                if (category === "Cocktail") autoEmoji = "🍹";
+                // Associer l'émoji de la catégorie sélectionnée
+                const catObj = recipeCategories.find(c => c.id === category);
+                const autoEmoji = catObj ? catObj.emoji : "🍛";
                 finalName = `${autoEmoji} ${name}`;
             }
 
