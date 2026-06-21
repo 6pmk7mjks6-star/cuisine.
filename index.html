@@ -998,6 +998,7 @@
         let recipeCategories = [];
         let plannedMeals = []; // { id: "uuid", week: 1, day: "Lundi", slot: "Midi", recipeId: "poulet-tikka", portions: 2, realized: false }
         let customShoppingItems = []; // { id: "uuid", name: "éponge", qty: "3" }
+        let ignoredShortageIds = []; // IDs d'aliments en rupture volontairement ignorés (pas achetés)
         
         let currentWeek = 1;
         let selectedCategory = "All";
@@ -1082,6 +1083,14 @@
             } else {
                 customShoppingItems = [];
                 saveCustomShopping();
+            }
+
+            // Chargement des aliments ignorés (ruptures volontairement non achetées)
+            const savedIgnoredShortages = localStorage.getItem("culinary_ignored_shortages_v3");
+            if (savedIgnoredShortages) {
+                ignoredShortageIds = JSON.parse(savedIgnoredShortages);
+            } else {
+                ignoredShortageIds = [];
             }
 
             // Chargement de la semaine de vue
@@ -1306,7 +1315,8 @@
                 inventory: inventory,
                 recipes: recipes,
                 plannedMeals: plannedMeals,
-                customShoppingItems: customShoppingItems
+                customShoppingItems: customShoppingItems,
+                ignoredShortageIds: ignoredShortageIds
             };
         }
 
@@ -1323,6 +1333,10 @@
             if (obj.recipes) recipes = obj.recipes;
             if (obj.plannedMeals) plannedMeals = obj.plannedMeals;
             if (obj.customShoppingItems) customShoppingItems = obj.customShoppingItems || [];
+            if (obj.ignoredShortageIds) {
+                ignoredShortageIds = obj.ignoredShortageIds || [];
+                saveIgnoredShortages();
+            }
             if (obj.currentWeek) {
                 currentWeek = obj.currentWeek;
                 document.getElementById("current-week-display").innerText = currentWeek;
@@ -1472,6 +1486,10 @@
 
         function saveCustomShopping() {
             localStorage.setItem("culinary_custom_shopping_v3", JSON.stringify(customShoppingItems));
+        }
+
+        function saveIgnoredShortages() {
+            localStorage.setItem("culinary_ignored_shortages_v3", JSON.stringify(ignoredShortageIds));
         }
 
         function saveStockCategories() {
@@ -2300,7 +2318,19 @@
             listContainer.innerHTML = "";
 
             const projectedStock = getProjectedStock();
-            const lowStockItems = inventory.filter(item => projectedStock[item.id] <= item.alert);
+
+            // Nettoyage : si un article ignoré n'est plus en rupture (stock reconstitué, planning changé),
+            // on l'enlève de la liste des ignorés pour qu'il puisse réapparaître si un nouveau besoin survient
+            const stillRelevantIgnored = ignoredShortageIds.filter(id => {
+                const invItem = inventory.find(i => i.id === id);
+                return invItem && projectedStock[id] <= invItem.alert;
+            });
+            if (stillRelevantIgnored.length !== ignoredShortageIds.length) {
+                ignoredShortageIds = stillRelevantIgnored;
+                saveIgnoredShortages();
+            }
+
+            const lowStockItems = inventory.filter(item => projectedStock[item.id] <= item.alert && !ignoredShortageIds.includes(item.id));
             const badge = document.getElementById("shopping-badge");
 
             // Calcul du total des alertes d'achat (Alimentaire + Personnel)
@@ -2357,6 +2387,9 @@
                                 <button onclick="buyItem('${item.id}')" class="theme-btn-primary font-semibold text-xs px-3 py-2 rounded-xl transition-all">
                                     <i class="fa-solid fa-check"></i> Acheté
                                 </button>
+                                <button onclick="ignoreShortage('${item.id}')" title="Ne pas acheter, retirer de la liste" class="bg-slate-100 hover:bg-slate-200 text-slate-500 font-semibold text-xs px-3 py-2 rounded-xl transition-all">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
                             </div>
                         </div>
                     `;
@@ -2384,8 +2417,8 @@
                                     Quantité requise : <span class="font-bold text-amber-800">${item.qty}</span>
                                 </p>
                             </div>
-                            <button onclick="deleteCustomShoppingItem('${item.id}')" class="bg-amber-600 hover:bg-amber-700 text-white font-semibold text-xs px-3 py-2 rounded-xl transition-all flex items-center gap-1">
-                                <i class="fa-solid fa-check"></i> Acheté
+                            <button onclick="deleteCustomShoppingItem('${item.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 font-semibold text-xs px-3 py-2 rounded-xl transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-trash"></i> Supprimer
                             </button>
                         </div>
                     `;
@@ -2444,6 +2477,19 @@
                 showToast(`Stock de "${item.name}" réapprovisionné de + ${restockVal} ${item.unit} !`);
                 triggerCloudBackup();
             }
+        }
+
+        function ignoreShortage(itemId) {
+            const item = inventory.find(i => i.id === itemId);
+            const itemName = item ? item.name : "Article";
+
+            if (!ignoredShortageIds.includes(itemId)) {
+                ignoredShortageIds.push(itemId);
+                saveIgnoredShortages();
+            }
+            refreshUI();
+            showToast(`"${itemName}" retiré de la liste de courses (non acheté).`);
+            triggerCloudBackup();
         }
 
         function resolveAllShortages() {
@@ -2654,6 +2700,7 @@
                         { id: "plan-2", week: 1, day: "Mardi", slot: "Soir", recipeId: "pitas-grecques", portions: 2, realized: false }
                     ];
                     customShoppingItems = [];
+                    ignoredShortageIds = [];
                     currentWeek = 1;
                     currentAppName = "Mon Chef de Stock";
                     localStorage.setItem("culinary_current_week_v3", currentWeek);
@@ -2668,6 +2715,7 @@
                     saveRecipes();
                     savePlannedMeals();
                     saveCustomShopping();
+                    saveIgnoredShortages();
                     refreshUI();
                     showToast("Application réinitialisée !");
                     triggerCloudBackup();
@@ -2685,6 +2733,7 @@
                     recipes = [];
                     plannedMeals = [];
                     customShoppingItems = [];
+                    ignoredShortageIds = [];
                     stockCategories = [];
                     recipeCategories = [];
                     currentWeek = 1;
@@ -2697,6 +2746,7 @@
                     saveRecipes();
                     savePlannedMeals();
                     saveCustomShopping();
+                    saveIgnoredShortages();
                     refreshUI();
                     showToast("Toutes vos données ont été effacées.", "warning");
                     triggerCloudBackup();
