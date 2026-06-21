@@ -80,7 +80,6 @@
 </head>
 <body class="text-slate-800 min-h-screen flex flex-col">
 
-    <!-- HEADER DE L'APPLICATION -->
     <header class="theme-primary-bg text-white shadow-md py-6 px-4 md:px-8 transition-all">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
@@ -113,7 +112,6 @@
         </div>
     </header>
 
-    <!-- NAVIGATION PRINCIPALE (ONGLETS) -->
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm overflow-hidden">
         <div class="max-w-7xl mx-auto scrollable-tabs flex justify-start gap-1 md:gap-4 px-2 md:px-8">
             <button onclick="switchTab('dashboard')" id="tab-dashboard" class="tab-btn py-4 px-3 md:px-5 font-medium text-sm transition-all border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 relative">
@@ -130,7 +128,7 @@
             </button>
             <button onclick="switchTab('shopping')" id="tab-shopping" class="tab-btn py-4 px-3 md:px-5 font-medium text-sm transition-all border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 relative">
                 <i class="fa-solid fa-basket-shopping"></i> <span>Liste de Courses</span>
-                <span id="shopping-badge" class="absolute top-2 right-1 bg-rose-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold hidden">0</span>
+                <span id="shopping-badge" class="absolute top-2 right-1 bg-rose-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold hidden font-mono">0</span>
             </button>
             <button onclick="switchTab('settings')" id="tab-settings" class="tab-btn py-4 px-3 md:px-5 font-medium text-sm transition-all border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2 relative">
                 <i class="fa-solid fa-gear"></i> <span>Configuration</span>
@@ -141,7 +139,6 @@
     <!-- CONTENU PRINCIPAL -->
     <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-8">
 
-        <!-- ================= ONGLET: TABLEAU DE BORD ================= -->
         <section id="content-dashboard" class="tab-content space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Récapitulatif des prochaines recettes programmées -->
@@ -166,7 +163,7 @@
                         <div class="grid grid-cols-2 gap-4 mt-4">
                             <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
                                 <span class="text-xs text-slate-400">Plats Planifiés</span>
-                                <p id="stat-planned-meals" class="text-2xl font-bold theme-light-text">0</p>
+                                <p id="stat-planned-meals" class="text-2xl font-bold theme-light-text font-mono">0</p>
                             </div>
                             <div class="bg-blue-50 p-3 rounded-xl border border-blue-100">
                                 <span class="text-xs text-blue-600">Plats Réalisés</span>
@@ -205,7 +202,7 @@
                         <button onclick="adjustWeek(1)" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 transition-colors"><i class="fa-solid fa-chevron-right text-xs"></i></button>
                     </div>
                 </div>
-                <p class="text-xs text-slate-400 italic text-center sm:text-right">Validez vos repas au fur et à mesure pour déduire les ingrédients de votre stock réel.</p>
+                <p class="text-xs text-slate-400 italic text-center sm:text-right">Valisez vos repas au fur et à mesure pour déduire les ingrédients de votre stock réel.</p>
             </div>
 
             <!-- PLANNING HEBDOMADAIRE RECAPITULATIF JOUR PAR JOUR -->
@@ -219,7 +216,6 @@
             </div>
         </section>
 
-        <!-- ================= ONGLET: MON STOCK ================= -->
         <section id="content-inventory" class="tab-content hidden space-y-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
@@ -231,7 +227,7 @@
                 </button>
             </div>
 
-            <!-- Barre de recherche et filtres de catégorie -->
+            <!-- Barre de recherche et filtres de catégorie d'aliments -->
             <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm space-y-4">
                 <div class="relative">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
@@ -267,7 +263,6 @@
             </div>
         </section>
 
-        <!-- ================= ONGLET: RECETTES ================= -->
         <section id="content-recipes" class="tab-content hidden space-y-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
@@ -285,7 +280,7 @@
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </span>
-                    <input type="text" id="recipe-search" oninput="renderRecipes()" placeholder="Rechercher une recette par nom..." class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none transition-all">
+                    <input type="text" id="recipe-search" oninput="renderRecipes()" placeholder="Rechercher une recette par nom ou par ingrédient..." class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none transition-all">
                 </div>
                 <!-- Filtres Générés Dynamiquement -->
                 <div class="flex flex-wrap gap-2">
@@ -299,7 +294,6 @@
             </div>
         </section>
 
-        <!-- ================= ONGLET: PLANIFIER UN REPAS ================= -->
         <section id="content-plan" class="tab-content hidden max-w-2xl mx-auto space-y-6">
             <div class="text-center">
                 <h2 class="text-2xl font-bold text-slate-800">📅 Planifier un Repas</h2>
@@ -373,7 +367,6 @@
             </div>
         </section>
 
-        <!-- ================= ONGLET: LISTE DE COURSES ================= -->
         <section id="content-shopping" class="tab-content hidden space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <div>
@@ -405,12 +398,11 @@
 
             <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-6">
                 <div id="shopping-list-container" class="space-y-6">
-                    <!-- Généré dynamiquement (Alimentaire ET Hors-alimentaire) -->
+                    <!-- Généré dynamiquement -->
                 </div>
             </div>
         </section>
 
-        <!-- ================= ONGLET: PARAMÈTRES / CONFIGURATION ================= -->
         <section id="content-settings" class="tab-content hidden space-y-6">
             <div>
                 <h2 class="text-2xl font-bold text-slate-800">Paramètres & Configuration</h2>
@@ -445,7 +437,7 @@
                                     <i class="fa-solid fa-info-circle mr-1 text-sky-500"></i> Copiez ce code et collez-le sur votre autre appareil pour lier instantanément vos deux interfaces de cuisine.
                                 </p>
                                 <div class="flex gap-2">
-                                    <button onclick="copySyncCode()" class="theme-btn-primary text-xs px-4 py-2 rounded-xl font-semibold flex items-center gap-1.5">
+                                    <button onclick="copySyncCode()" class="theme-btn-primary text-xs px-4 py-2 rounded-xl font-semibold flex items-center gap-1.5 font-sans">
                                         <i class="fa-regular fa-copy"></i> Copier le code
                                     </button>
                                     <button onclick="disableCloudSync()" class="bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 text-xs px-4 py-2 rounded-xl font-semibold">
@@ -545,7 +537,7 @@
                     <!-- Choix du Thème de Couleur -->
                     <div>
                         <label class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">Thème de couleur principal</label>
-                        <div class="flex gap-4">
+                        <div class="flex flex-wrap gap-4">
                             <button onclick="applyTheme('emerald')" id="theme-dot-emerald" class="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold cursor-pointer transition-all hover:scale-105" title="Vert Émeraude"></button>
                             <button onclick="applyTheme('indigo')" id="theme-dot-indigo" class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold cursor-pointer transition-all hover:scale-105" title="Bleu Indigo"></button>
                             <button onclick="applyTheme('rose')" id="theme-dot-rose" class="w-10 h-10 rounded-full bg-rose-600 flex items-center justify-center text-white font-bold cursor-pointer transition-all hover:scale-105" title="Rose Framboise"></button>
@@ -599,7 +591,6 @@
 
             </div>
 
-            <!-- SECTION GUIDES & SUPPORT EN BAS DE PAGE -->
             <div class="border-t border-slate-200 pt-8 mt-8">
                 <h3 class="text-md font-bold text-slate-700 mb-4 flex items-center gap-2">
                     <i class="fa-solid fa-circle-info theme-light-text"></i> Guides d'utilisation & Assistance technique au quotidien
@@ -647,7 +638,7 @@
                         </div>
                     </div>
 
-                    <!-- GUIDE SMARTPHONE & GITHUB PAGES / SAFARI -->
+                    <!-- GUIDE SMARTPHONE & SAFARI / GITHUB PAGES -->
                     <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 space-y-3 flex flex-col justify-between">
                         <div>
                             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5 mb-2">
@@ -850,6 +841,22 @@
                     <textarea id="recipe-instructions-input" rows="4" placeholder="Étape 1 : Couper le poulet...&#10;Étape 2 : Faire mijoter..." class="w-full px-4 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 theme-border-focus focus:outline-none resize-none"></textarea>
                 </div>
 
+                <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-150 space-y-2">
+                    <h5 class="text-xs font-bold text-slate-700 flex items-center gap-1.5"><i class="fa-solid fa-folder-plus theme-light-text"></i> Ajouter un ingrédient absent de votre stock :</h5>
+                    <div class="flex gap-2">
+                        <input type="text" id="quick-add-ingredient-name" placeholder="Ex: Coriandre, Sauce Teriyaki, Frites..." class="flex-grow px-3 py-1.5 border border-slate-200 bg-white rounded-xl text-xs focus:ring-2 theme-border-focus focus:outline-none">
+                        <select id="quick-add-ingredient-unit" class="w-24 px-2 py-1.5 border border-slate-200 bg-white rounded-xl text-xs focus:ring-2 theme-border-focus focus:outline-none">
+                            <option value="g">g</option>
+                            <option value="ml">ml</option>
+                            <option value="pièces">pièces</option>
+                            <option value="boîtes">boîtes</option>
+                            <option value="bottes">bottes</option>
+                            <option value="sachets">sachets</option>
+                        </select>
+                        <button type="button" onclick="quickAddIngredientToInventory()" class="theme-btn-primary px-3 py-1.5 text-xs font-bold rounded-xl whitespace-nowrap">Créer</button>
+                    </div>
+                </div>
+
                 <div class="border-t border-slate-100 pt-4">
                     <h4 class="text-sm font-semibold text-slate-700 mb-2">Sélectionner les ingrédients (quantité par portion) :</h4>
                     
@@ -872,7 +879,6 @@
 
     <!-- CODE LOGIQUE EN JAVASCRIPT -->
     <script>
-        // CONFIGURATION DES JOURS ET SLOTS
         const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
         const SLOTS = ["Midi", "Soir"];
 
@@ -1099,7 +1105,6 @@
             }
         };
 
-        // GESTION DE LA SYNCHRONISATION CLOUD EN TEMPS RÉEL (npoint.io)
         function updateCloudSyncUI() {
             const statusBox = document.getElementById("cloud-sync-status");
             const setupActive = document.getElementById("sync-setup-active");
@@ -1136,13 +1141,14 @@
             }
         }
 
-        // Active la synchronisation en créant un nouveau coffre Cloud (npoint bin)
+        // Active la synchronisation en créant un nouveau coffre Cloud (npoint bin) via proxy CORS
         function enableCloudSync() {
             setSyncStatus('syncing', 'Création du coffre...');
             
             const payload = getApplicationStateObject();
 
-            fetch('https://api.npoint.io', {
+            // Utilisation de corsproxy.io pour autoriser le navigateur à envoyer la requête de création
+            fetch('https://corsproxy.io/?url=https://api.npoint.io', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -1164,7 +1170,7 @@
             });
         }
 
-        // Se connecte à un code Cloud existant saisi par l'utilisateur
+        // Se connecte à un code Cloud existant saisi par l'utilisateur via proxy CORS
         function connectToExistingSync() {
             const input = document.getElementById("sync-code-input");
             const code = input.value.trim();
@@ -1179,7 +1185,7 @@
                 "En vous connectant, toutes vos recettes et vos stocks actuels sur cet appareil vont être remplacés par les données du Cloud. Confirmer ?",
                 function() {
                     setSyncStatus('syncing', 'Récupération...');
-                    fetch(`https://api.npoint.io/${code}`)
+                    fetch('https://corsproxy.io/?url=https://api.npoint.io/' + code)
                     .then(res => {
                         if (!res.ok) throw new Error("Code de synchronisation introuvable ou invalide.");
                         return res.json();
@@ -1204,7 +1210,7 @@
             );
         }
 
-        // Télécharge les dernières données cloud (forcé ou initial)
+        // Télécharge les dernières données cloud via proxy CORS
         function forceCloudDownload() {
             fetchLatestCloudData(false);
         }
@@ -1213,7 +1219,7 @@
             if (!syncCode) return;
             if (!silent) setSyncStatus('syncing', 'Mise à jour...');
 
-            fetch(`https://api.npoint.io/${syncCode}`)
+            fetch('https://corsproxy.io/?url=https://api.npoint.io/' + syncCode)
             .then(res => {
                 if (!res.ok) throw new Error();
                 return res.json();
@@ -1233,7 +1239,7 @@
             });
         }
 
-        // Sauvegarde automatique en arrière-plan vers le Cloud
+        // Sauvegarde automatique en arrière-plan vers le Cloud via proxy CORS
         function triggerCloudBackup() {
             if (!syncCode || isSyncing) return;
             isSyncing = true;
@@ -1241,7 +1247,7 @@
 
             const payload = getApplicationStateObject();
 
-            fetch(`https://api.npoint.io/${syncCode}`, {
+            fetch('https://corsproxy.io/?url=https://api.npoint.io/' + syncCode, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -1376,10 +1382,12 @@
             
             // Mise en valeur visuelle du sélecteur actif
             document.querySelectorAll("[id^='theme-dot-']").forEach(dot => {
-                dot.classList.remove('ring-4', 'ring-slate-400', 'ring-offset-2');
+                dot.className = dot.className.replace(/\s*ring-\d+.*$/, '');
             });
             const selectedDot = document.getElementById(`theme-dot-${themeName}`);
-            if (selectedDot) selectedDot.classList.add('ring-4', 'ring-slate-400', 'ring-offset-2');
+            if (selectedDot) {
+                selectedDot.className += ' ring-4 ring-slate-400 ring-offset-2';
+            }
             
             localStorage.setItem('culinary_theme', themeName);
             
@@ -1472,7 +1480,6 @@
             localStorage.setItem("culinary_recipe_categories_v3", JSON.stringify(recipeCategories));
         }
 
-        // ENGIN DE NAVIGATION SEMAINE
         function adjustWeek(val) {
             currentWeek = Math.max(1, currentWeek + val);
             localStorage.setItem("culinary_current_week_v3", currentWeek);
@@ -1570,7 +1577,6 @@
             renderCategoryManager();
         }
 
-        // CATEGORIES : RENDU DES FILTRES INVENTAIRE (DYNAMIQUE)
         function renderStockCategoryFilters() {
             const container = document.querySelector("#content-inventory .flex.flex-wrap.gap-2");
             if (!container) return;
@@ -1591,7 +1597,6 @@
             container.innerHTML = html;
         }
 
-        // CATEGORIES : RENDU DES FILTRES RECETTES (DYNAMIQUE)
         function renderRecipeCategoryFilters() {
             const container = document.querySelector("#content-recipes .flex.flex-wrap.gap-2");
             if (!container) return;
@@ -1612,7 +1617,6 @@
             container.innerHTML = html;
         }
 
-        // POPULATE DROPDOWNS DANS LES MODALS (DYNAMIQUE)
         function populateModalDropdowns() {
             // Modal Ingrédient
             const itemCatSelect = document.getElementById("add-item-category");
@@ -1641,7 +1645,6 @@
             }
         }
 
-        // TABLEAU DE BORD : PLANNING ET RÉCAPITULATIFS
         function renderDashboard() {
             document.getElementById("planned-week-title").innerText = currentWeek;
 
@@ -1770,16 +1773,15 @@
                     const projQty = projectedStock[item.id];
                     const textClass = projQty < 0 ? 'text-rose-600 font-bold' : 'text-amber-600';
                     shortagesContainer.innerHTML += `
-                        <div class="flex justify-between items-center text-xs">
+                        <div class="flex justify-between items-center text-xs font-sans">
                             <span class="text-slate-600 truncate max-w-[150px] font-medium">• ${item.name}</span>
-                            <span class="${textClass}">${formatQty(projQty)} ${item.unit}</span>
+                            <span class="${textClass} font-mono font-bold">${formatQty(projQty)} ${item.unit}</span>
                         </div>
                     `;
                 });
             }
         }
 
-        // RENDU DE L'INVENTAIRE
         function renderInventoryTable() {
             const body = document.getElementById("inventory-table-body");
             body.innerHTML = "";
@@ -1798,7 +1800,7 @@
             if (filtered.length === 0) {
                 body.innerHTML = `
                     <tr>
-                        <td colspan="6" class="p-8 text-center text-slate-400 text-sm">
+                        <td colspan="6" class="p-8 text-center text-slate-400 text-sm font-sans">
                             <i class="fa-solid fa-box-open text-2xl mb-2 block"></i>
                             Aucun ingrédient trouvé.
                         </td>
@@ -1910,7 +1912,6 @@
             }
         }
 
-        // RENDU DES RECETTES
         function renderRecipes() {
             const grid = document.getElementById("recipes-grid");
             grid.innerHTML = "";
@@ -1940,7 +1941,7 @@
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
-                    <div class="col-span-full text-center py-12 text-slate-400 bg-white rounded-3xl border border-slate-100 p-8 shadow-sm">
+                    <div class="col-span-full text-center py-12 text-slate-400 bg-white rounded-3xl border border-slate-100 p-8 shadow-sm font-sans">
                         <i class="fa-solid fa-book-open text-3xl mb-2 block"></i>
                         Aucune recette trouvée. Créez-en une nouvelle pour commencer !
                     </div>
@@ -2000,7 +2001,6 @@
             });
         }
 
-        // VISUALISATION FICHE RECETTE
         function openViewRecipeModal(recipeId) {
             const recipe = recipes.find(r => r.id === recipeId);
             if (!recipe) return;
@@ -2181,9 +2181,28 @@
                 }
 
                 savePlannedMeals();
+                
+                // Vérifier s'il y a des ingrédients en quantité insuffisante en stock réel
+                let hasMissing = false;
+                recipe.ingredients.forEach(ri => {
+                    const item = inventory.find(i => i.id === ri.id);
+                    if (item) {
+                        const totalNeeded = ri.amount * portions;
+                        if (item.qty < totalNeeded) {
+                            hasMissing = true;
+                        }
+                    } else {
+                        hasMissing = true;
+                    }
+                });
+
                 refreshUI();
 
-                showToast(`Repas "${recipe.name}" planifié pour le ${day} ${slot} (Sem. ${week}) !`);
+                if (hasMissing) {
+                    showToast(`⚠️ Repas planifié ! Des ingrédients manquants ont été ajoutés à votre liste de courses.`, "warning");
+                } else {
+                    showToast(`Repas "${recipe.name}" planifié pour le ${day} ${slot} (Sem. ${week}) !`);
+                }
                 
                 currentWeek = week;
                 document.getElementById("current-week-display").innerText = currentWeek;
@@ -2207,7 +2226,6 @@
             }
         }
 
-        // RÉALISER / CUISINER UN REPAS DU PLANNING
         function realizePlannedMeal(mealId) {
             const meal = plannedMeals.find(m => m.id === mealId);
             if (!meal || meal.realized) return;
@@ -2274,7 +2292,6 @@
             );
         }
 
-        // RENDU DE LA LISTE DE COURSES
         function renderShoppingList() {
             const listContainer = document.getElementById("shopping-list-container");
             if (!listContainer) return;
@@ -2289,7 +2306,7 @@
 
             if (totalShortagesCount === 0) {
                 listContainer.innerHTML = `
-                    <div class="text-center py-8">
+                    <div class="text-center py-8 font-sans">
                         <div class="text-4xl text-emerald-200 mb-3"><i class="fa-solid fa-circle-check text-emerald-500"></i></div>
                         <p class="font-semibold text-slate-700">Aucun achat requis !</p>
                         <p class="text-xs text-slate-400 mt-1">Vos réserves provisoires couvrent l'intégralité des repas planifiés et votre liste personnalisée est vide.</p>
@@ -2306,7 +2323,7 @@
             if (lowStockItems.length > 0) {
                 let foodSectionHTML = `
                     <div class="space-y-3">
-                        <h3 class="text-xs uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5 mb-2">
+                        <h3 class="text-xs uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5 mb-2 font-sans">
                             <i class="fa-solid fa-apple-whole"></i> Besoins alimentaires (Calculés d'après vos stocks & plannings)
                         </h3>
                 `;
@@ -2323,7 +2340,7 @@
 
                     foodSectionHTML += `
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 bg-slate-50 rounded-2xl border border-slate-100 gap-3">
-                            <div>
+                            <div class="font-sans">
                                 <h4 class="font-bold text-slate-800">${item.name}</h4>
                                 <p class="text-xs text-slate-500 mt-0.5">
                                     Stock Réel : ${formatQty(item.qty)} ${item.unit} | 
@@ -2331,7 +2348,7 @@
                                     (Alerte si ≤ ${item.alert})
                                 </p>
                             </div>
-                            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                            <div class="flex items-center gap-2 w-full sm:w-auto justify-end font-sans">
                                 <span class="text-xs text-slate-400 mr-2">Acheter :</span>
                                 <input type="number" id="restock-input-${item.id}" value="${defaultRestock}" class="w-16 text-center border border-slate-200 px-1 py-1 rounded-lg text-sm bg-white font-mono font-bold">
                                 <span class="text-xs font-semibold text-slate-500 mr-2">${item.unit}</span>
@@ -2351,14 +2368,14 @@
             if (customShoppingItems.length > 0) {
                 let customSectionHTML = `
                     <div class="space-y-3 pt-4 border-t border-slate-100">
-                        <h3 class="text-xs uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5 mb-2">
+                        <h3 class="text-xs uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5 mb-2 font-sans">
                             <i class="fa-solid fa-basket-shopping"></i> Autres achats & Articles du quotidien
                         </h3>
                 `;
 
                 customShoppingItems.forEach(item => {
                     customSectionHTML += `
-                        <div class="flex justify-between items-center p-4 bg-amber-50/50 rounded-2xl border border-amber-100 gap-3">
+                        <div class="flex justify-between items-center p-4 bg-amber-50/50 rounded-2xl border border-amber-100 gap-3 font-sans">
                             <div>
                                 <h4 class="font-bold text-slate-800">${item.name}</h4>
                                 <p class="text-xs text-slate-500 mt-0.5">
@@ -2448,7 +2465,6 @@
             );
         }
 
-        // PARAMETRES : GESTION DES CATEGORIES PERSONNALISÉES
         function renderCategoryManager() {
             const stockList = document.getElementById("settings-stock-cats-list");
             const recipeList = document.getElementById("settings-recipe-cats-list");
@@ -2695,7 +2711,6 @@
             document.getElementById(modalId).classList.add("hidden");
         }
 
-        // CRÉATION / MODIFICATION RECETTE
         function openAddRecipeModal(recipeId = null) {
             const container = document.getElementById("recipe-ingredients-list-container");
             const modalTitle = document.getElementById("recipe-modal-title");
@@ -2767,7 +2782,6 @@
             }
         }
 
-        // ENREGISTREMENT INGRÉDIENT
         function saveNewItem() {
             const name = document.getElementById("add-item-name").value.trim();
             const qty = parseFloat(document.getElementById("add-item-qty").value) || 0;
@@ -2798,7 +2812,6 @@
             triggerCloudBackup();
         }
 
-        // ENREGISTREMENT DE RECETTE
         function saveNewRecipe() {
             const name = document.getElementById("recipe-name-input").value.trim();
             const category = document.getElementById("recipe-category-input").value;
@@ -2881,7 +2894,6 @@
             triggerCloudBackup();
         }
 
-        // SUPRESSION D'INGRÉDIENT
         function deleteItem(itemId) {
             const item = inventory.find(i => i.id === itemId);
             if (!item) return;
@@ -2902,6 +2914,58 @@
 
         function formatQty(value) {
             return parseFloat(value.toFixed(2));
+        }
+
+        function quickAddIngredientToInventory() {
+            const nameInput = document.getElementById("quick-add-ingredient-name");
+            const unitSelect = document.getElementById("quick-add-ingredient-unit");
+            const name = nameInput.value.trim();
+            const unit = unitSelect.value;
+
+            if (!name) {
+                showToast("Veuillez saisir le nom de l'ingrédient.", "error");
+                return;
+            }
+
+            const id = name.toLowerCase().replace(/[^a-z0-9]/g, "-");
+            
+            if (inventory.find(i => i.id === id)) {
+                showToast("Cet ingrédient existe déjà dans vos réserves.", "warning");
+                return;
+            }
+
+            // Créer l'ingrédient avec un stock réel initial de 0 (donc en rupture)
+            const newItem = { id, name, qty: 0, unit, category: "Placard", alert: 0 };
+            inventory.push(newItem);
+            saveInventory();
+            
+            // Réinitialiser le champ de texte
+            nameInput.value = "";
+            
+            // Insérer l'ingrédient directement au sommet de la liste dans la modale de création
+            const container = document.getElementById("recipe-ingredients-list-container");
+            const rowHtml = `
+                <div class="recipe-ingredient-row flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100 hover:border-slate-200 transition-colors">
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="add-recipe-check-${id}" checked class="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500">
+                        <label for="add-recipe-check-${id}" class="text-sm font-semibold text-slate-700 cursor-pointer">${name}</label>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="number" id="add-recipe-qty-${id}" step="any" placeholder="Qté" class="w-20 px-2 py-1 border border-slate-200 rounded-lg text-sm text-center focus:ring-1 focus:ring-emerald-500 focus:outline-none font-mono font-bold">
+                        <span class="text-xs text-slate-400 font-medium w-8">${unit}</span>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('afterbegin', rowHtml);
+            
+            // Placer automatiquement le focus sur le champ de quantité pour aller plus vite
+            setTimeout(() => {
+                const qtyInput = document.getElementById(`add-recipe-qty-${id}`);
+                if (qtyInput) qtyInput.focus();
+            }, 100);
+
+            showToast(`"${name}" ajouté au stock (à 0) et sélectionné !`);
+            triggerCloudBackup();
         }
     </script>
 </body>
